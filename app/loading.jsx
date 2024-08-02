@@ -1,5 +1,8 @@
-'use client';
-import { InfinitySpin } from "react-loader-spinner";
+"use client";
+import React from "react";
+import { InfinitySpin } from "react-loader-spinner"; // Ensure correct import
+
+
 
 const Loader = () => {
   return (
