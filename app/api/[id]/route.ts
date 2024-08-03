@@ -61,4 +61,29 @@ async function updateTransaction(
   }
 }
 
-export { fetchATransaction as GET, updateTransaction as PUT };
+
+// Delete a transaction by id
+async function deleteTransaction(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = parseInt(params.id, 10);
+
+  if (isNaN(id)) {
+    return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
+  }
+
+  try {
+    const deletedTransaction = await prisma.transaction.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return NextResponse.json({data: deletedTransaction}, {status: 200});
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export { fetchATransaction as GET, updateTransaction as PUT, deleteTransaction as DELETE };
