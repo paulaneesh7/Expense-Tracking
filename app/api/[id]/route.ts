@@ -6,8 +6,7 @@ async function fetchATransaction(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-
-   // convert the id to a number as we have id = Int in our schema 
+  // convert the id to a number as we have id = Int in our schema
   const id = parseInt(params.id, 10);
 
   if (isNaN(id)) {
@@ -20,23 +19,46 @@ async function fetchATransaction(
         id: id,
       },
     });
-    
-    if (!transaction) {
-        return NextResponse.json({ error: "Transaction not found" }, { status: 404 });
-      }
 
-    return NextResponse.json({data: transaction}, {status: 200});
+    if (!transaction) {
+      return NextResponse.json(
+        { error: "Transaction not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ data: transaction }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-
 // Update a transaction by id
-async function updateTransaction(request: NextRequest, { params }: { params: { id: string } }){
-    const id = parseInt(params.id, 10);
-    
-}
+async function updateTransaction(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = parseInt(params.id, 10);
+  const updatedData = await request.json();
 
+  if (isNaN(id)) {
+    return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
+  }
+
+  try {
+    const updatedTransaction = await prisma.transaction.update({
+      where: {
+        id: id,
+      },
+      data: {
+        ...updatedData,
+      },
+    });
+
+    return NextResponse.json({data: updatedTransaction}, {status: 200});
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
 
 export { fetchATransaction as GET, updateTransaction as PUT };
