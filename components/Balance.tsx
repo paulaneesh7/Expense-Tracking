@@ -14,6 +14,7 @@ interface Transaction {
 
 const Balance = ({ change }: { change: number }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  
 
   const fetchTransaction = async () => {
     try {
@@ -31,7 +32,7 @@ const Balance = ({ change }: { change: number }) => {
 
   let balance = 0;
   for (const transaction of transactions) {
-    balance += +transaction.price; // +transaction.price because we want to convert it to a number first before adding
+    if (transaction.selectedOption !== "Done") balance += +transaction.price; // +transaction.price because we want to convert it to a number first before adding
   }
 
   if (change > 0) {
