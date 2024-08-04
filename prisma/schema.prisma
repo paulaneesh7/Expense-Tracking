@@ -16,7 +16,7 @@ datasource db {
 model Transaction {
   id             Int      @id @default(autoincrement())
   name           String
-  price          Int
+  price          String
   dateTime       String
   description    String
   selectedOption String

@@ -2,50 +2,57 @@
 
 import React, { useState } from "react";
 
+interface Transaction {
+  name: string;
+  price: string;
+  dateTime: string;
+  description: string;
+  selectedOption: string;
+}
+
 const AddTransaction = () => {
   const [name, setName] = useState<string>("");
   const [dateTime, setDateTime] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<string>("");
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const price: string = name.split(" ")[0];
 
-    interface Transaction {
-        name: string;
-        price: string;
-        dateTime: string;
-        description: string;
-        selectedOption: string;
-    }
-
     const transaction: Transaction = {
-        name: name.substring(price.length + 1),
-        price,
-        dateTime,
-        description,
-        selectedOption,
+      name: name.substring(price.length + 1),
+      price,
+      dateTime,
+      description,
+      selectedOption,
     };
     try {
-        const res = await fetch(URL + "/api/addtransaction", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(transaction),
-        });
-        // console.log(res.data);
-        setName("");
-        setDateTime("");
-        setDescription("");
-        setSelectedOption("");
-        //   window.location.reload(true);
+      const response = await fetch("/api/addtransaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transaction),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add transaction");
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+
+      setName("");
+      setDateTime("");
+      setDescription("");
+      setSelectedOption("");
+      window.location.reload();
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-};
+  };
 
   return (
     <>
