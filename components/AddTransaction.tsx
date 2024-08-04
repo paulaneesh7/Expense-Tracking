@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 interface Transaction {
   name: string;
@@ -42,6 +43,7 @@ const AddTransaction = () => {
       }
 
       const responseData = await response.json();
+      toast.success("Transaction added successfully");
       console.log(responseData);
 
       setName("");
@@ -51,11 +53,13 @@ const AddTransaction = () => {
       window.location.reload();
     } catch (err) {
       console.log(err);
+      toast.error("Failed to add transaction");
     }
   };
 
   return (
     <>
+      <Toaster />
       <form action="" className="mt-[20px]" onSubmit={handleSubmit}>
         {/* Name and DateTime */}
         <div className="flex items-center gap-2 basic">

@@ -12,7 +12,7 @@ interface Transaction {
   updatedAt: string; // Use string if the API returns dates as strings
 }
 
-const Balance = ({change}: {change: number}) => {
+const Balance = ({ change }: { change: number }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const fetchTransaction = async () => {
@@ -23,7 +23,7 @@ const Balance = ({change}: {change: number}) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchTransaction();
