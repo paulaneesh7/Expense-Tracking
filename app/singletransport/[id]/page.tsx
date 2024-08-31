@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import Loader from "../loading";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Balance from "@/components/Balance";
+import Loader from "@/app/loading";
 
 interface Transaction {
   name: string;
@@ -17,7 +18,7 @@ interface Transaction {
   selectedOption: string;
 }
 
-const UpdateTransaction = ({ params }: { params: { id: string } }) => {
+const UpdateTransportTransaction = ({ params }: { params: { id: string } }) => {
   const id = parseInt(params.id, 10);
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
@@ -34,7 +35,7 @@ const UpdateTransaction = ({ params }: { params: { id: string } }) => {
   const fetchTransaction = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/${id}`);
+      const response = await fetch(`/api/transport/${id}`);
       const data = await response.json();
       // console.log(data.data);
 
@@ -76,7 +77,7 @@ const UpdateTransaction = ({ params }: { params: { id: string } }) => {
     // }
 
     try {
-      const response = await fetch(`/api/${id}`, {
+      const response = await fetch(`/api/transport/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +90,7 @@ const UpdateTransaction = ({ params }: { params: { id: string } }) => {
 
 
 
-      router.push("/");
+      router.push("/transport");
       // console.log(data.data);
 
       // setName(data.data.name);
@@ -105,14 +106,14 @@ const UpdateTransaction = ({ params }: { params: { id: string } }) => {
 
   const handleDeleteTransaction = async () => {
     try {
-      const response = await fetch(`/api/${id}`, {
+      const response = await fetch(`/api/transport/${id}`, {
         method: "DELETE",
       });
 
       toast.success("Transaction deleted successfully");
       const data = await response.json();
       console.log(data);
-      router.push("/");
+      router.push("/transport");
     } catch (error: any) {
       console.log(error.message);
       toast.error("Failed to delete transaction");
@@ -235,7 +236,7 @@ const UpdateTransaction = ({ params }: { params: { id: string } }) => {
 
           <div className="flex justify-between gap-3 mt-8 flex-row-reverse">
             <Button variant="default">
-              <Link href="/">Back</Link>
+              <Link href="/transport">Back</Link>
             </Button>
 
             <Button variant="destructive" onClick={handleDeleteTransaction}>
@@ -248,4 +249,4 @@ const UpdateTransaction = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default UpdateTransaction;
+export default UpdateTransportTransaction;
