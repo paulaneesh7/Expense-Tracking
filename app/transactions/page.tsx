@@ -48,7 +48,7 @@ const DisplayTransactions = () => {
               className="border-t-[1px] border-t-gray-600 first:border-t-0"
               key={transaction.id}
             >
-              <Link href={"dfd/dfgfdg"}>
+              <Link href={`/transactions/${transaction.id}`}>
                 <div className="flex flex-col justify-between py-2 font-medium md:flex-row transaction ">
                   {/* left */}
                   <div className="left">
