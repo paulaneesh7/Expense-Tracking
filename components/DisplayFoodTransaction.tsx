@@ -16,14 +16,14 @@ interface Transaction {
   updatedAt: string; // Use string if the API returns dates as strings
 }
 
-const DisplayTransactions = () => {
+const DisplayFoodTransaction = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchTransactions = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/limited");
+      const response = await fetch("/api/fetchfoods");
       const data = await response.json();
       console.log(data.data);
       setTransactions(data.data);
@@ -49,7 +49,7 @@ const DisplayTransactions = () => {
               className="border-t-[1px] border-t-gray-600 first:border-t-0"
               key={transaction.id}
             >
-              <Link href={`/singletransaction/${transaction.id}`}>
+              <Link href={`/singlefood/${transaction.id}`}>
                 <div className="flex flex-col justify-between py-2 font-medium md:flex-row transaction ">
                   {/* left */}
                   <div className="left">
@@ -98,17 +98,11 @@ const DisplayTransactions = () => {
             </div>
           )}
 
-          <RouteMove
-            route={"/transactions"}
-            description={"Check all expenses"}
-          />
-          <RouteMove route={"/transport"} description={"Transport expenses"} />
-
-          <RouteMove route={"/food"} description={"Food expenses"} />
+          <RouteMove route={"/"} description={"Home Page"} />
         </div>
       )}
     </>
   );
 };
 
-export default DisplayTransactions;
+export default DisplayFoodTransaction;

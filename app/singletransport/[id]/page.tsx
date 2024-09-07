@@ -7,7 +7,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import Balance from "@/components/Balance";
 import Loader from "@/app/loading";
 
 interface Transaction {
